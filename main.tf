@@ -100,6 +100,8 @@ resource "aws_iam_policy" "gatewaypolicy" {
             }
         ]
     })
+
+    depends_on = [aws_iam_role.gatewayrole]
 }
 
 resource "aws_iam_role_policy_attachment" "gatewaypolicyattachment" {
@@ -321,11 +323,11 @@ resource "aws_api_gateway_rest_api" "apigateway" {
 //
 // define ec2 instance
 //
-resource "aws_instance" "ec2instance" {
-  ami           = "ami-07619059e86eaaaa2" // Amazon Linux 2023 AMI
-  instance_type = "t2.micro"              // Smallest free tier instance type
+# resource "aws_instance" "ec2instance" {
+#   ami           = "ami-07619059e86eaaaa2" // Amazon Linux 2023 AMI
+#   instance_type = "t2.micro"              // Smallest free tier instance type
 
-  tags = {
-    Name = "${var.project_name}-ec2-instance"
-  }
-}
+#   tags = {
+#     Name = "${var.project_name}-ec2-instance"
+#   }
+# }
