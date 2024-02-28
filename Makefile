@@ -17,7 +17,9 @@ help: ## This help.
 
 # DOCKER TASKS
 # Build the container
-awsinit: ## Install Terraform on Debian
+init: ## Install Terraform on Debian
 	export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 	export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+
+	terraform init
 samplecommandtwo: ## Build the container without no cache

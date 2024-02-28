@@ -36,3 +36,4 @@ terraform.rc
 # Exclude env from tracking
 *.env
 config.*
+.env
