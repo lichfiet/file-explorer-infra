@@ -318,6 +318,8 @@ resource "aws_api_gateway_rest_api" "apigateway" {
     },
     "x-amazon-apigateway-binary-media-types" : ["*/*"]
   })
+
+  depends_on = [aws_iam_role.gatewayrole]
 }
 
 //
