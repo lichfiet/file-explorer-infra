@@ -12,3 +12,25 @@ This is the backend for the file explorer project, a full setup guide will exist
 - A can-do attitude
 
 ### Getting Started:
+
+1. Clone the github repository and initialize terraform
+
+    ```
+    git clone https://github.com/lichfiet/file-explorer-infra.git &&
+    cd file-explorer-infra &&
+    terraform init
+    ```
+
+2. Modify the .env.sample file
+
+    Change the file name with `mv .env.sample .env` and then you will need an AWS IAM User's Access Key and Secret Key. Information on how to obtain will be below this step. In the `.env` file, replace the `YOUR AWS ACCESS KEY` with your AWS IAM User's Acess Key, and replace the `YOUR AWS SECRET ACCESS KEY` with your secret key.
+
+    *(Ex.)*
+    ```
+    AWS_ACCESS_KEY_ID=123456789
+    AWS_SECRET_ACCESS_KEY=1a2b3c4d5e6f7g
+    ```
+
+3. Create your resources
+
+    Run `terraform apply` to build your infrastructure
