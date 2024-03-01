@@ -25,7 +25,7 @@ resource "aws_iam_policy" "gatewaypolicy" {
         "Version": "2012-10-17",
         "Statement": [
             {
-                "Action"   : ["s3:ListBucket", "s3:PutObject", "s3:GetObject"], // enables delete, list, and uploading files to bucket resource
+                "Action"   : ["s3:ListBucket", "s3:PutObject", "s3:GetObject", "s3:DeleteObject"], // enables delete, list, and uploading files to bucket resource
                 "Effect"   : "Allow",
                 "Resource" : "${aws_s3_bucket.s3bucket.arn}/*" // allows access to the bucket setup in ./s3.tf
             }
