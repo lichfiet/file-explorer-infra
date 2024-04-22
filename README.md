@@ -1,6 +1,6 @@
 # file-explorer-infra
 
-This is the backend for the file explorer project, a full setup guide will exist in the [lichfiet/file-explorer-web](https://github.com/lichfiet/file-explorer-web) repository soon, but this will walk you through how to set up your AWS services with Terraform.
+This is the AWS Infrastructure for the file explorer project, a full setup guide will exist in the [lichfiet/file-explorer-web](https://github.com/lichfiet/file-explorer-web) repository at some point, but this will walk you through how to set up your AWS services with Terraform.
 
 ## How to use
 
@@ -8,7 +8,7 @@ This is the backend for the file explorer project, a full setup guide will exist
 
 - Terraform
   - [Installation Link](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) 
-- AWS Account
+- An AWS Account
 - A can-do attitude
 
 ### Getting Started:
@@ -53,3 +53,9 @@ This is the backend for the file explorer project, a full setup guide will exist
 4. #### Deploy your resources
 
     Run `terraform apply` to build your infrastructure
+
+    When run, it will output the API Gateway URL.
+    
+    *(e.x., `API_Gateway_URL = "https://bl4m5xb3sl.execute-api.us-west-1.amazonaws.com/dev"`)*
+
+    **you will need to copy this to place in your** `.env` file of the backend service. If you navigated from the main tutorial, you can head back by clicking [here](https://https://github.com/lichfiet/file-explorer-web).

@@ -16,7 +16,6 @@ provider "aws" {
   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
 
-
 //
 // define ec2 instance
 //

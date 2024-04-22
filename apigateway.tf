@@ -73,6 +73,10 @@ resource "aws_api_gateway_rest_api" "apigateway" {
             }
           }],
           "responses" : {
+            "404" : {
+              "description" : "404 response",
+              "content" : {}
+            },
             "200" : {
               "description" : "200 response",
               "content" : {
@@ -82,23 +86,33 @@ resource "aws_api_gateway_rest_api" "apigateway" {
                   }
                 }
               }
+            },
+            "403" : {
+              "description" : "403 response",
+              "content" : {}
             }
           },
           "x-amazon-apigateway-integration" : {
+            "type" : "aws",
             "credentials" : "${aws_iam_role.gatewayrole.arn}",
             "httpMethod" : "DELETE",
-            "uri" : "arn:aws:apigateway:us-west-1:s3:path/{bucket}/{object}", // url path parameters
+            "uri" : "arn:aws:apigateway:us-west-1:s3:path/{bucket}/{object}",
             "responses" : {
               "default" : {
                 "statusCode" : "200"
+              },
+              "403" : {
+                "statusCode" : "403"
+              },
+              "404" : {
+                "statusCode" : "404"
               }
             },
             "requestParameters" : {
-              "integration.request.path.object" : "method.request.path.fileName", // ${fileName} path parameter
-              "integration.request.path.bucket" : "method.request.path.bucket" // ${bucket} path parameter
+              "integration.request.path.object" : "method.request.path.fileName",
+              "integration.request.path.bucket" : "method.request.path.bucket"
             },
-            "passthroughBehavior" : "when_no_match",
-            "type" : "aws"
+            "passthroughBehavior" : "when_no_match"
           }
         }
       },
@@ -229,3 +243,14 @@ resource "aws_api_gateway_stage" "apigatewaystage" {
   rest_api_id   = aws_api_gateway_rest_api.apigateway.id
   deployment_id = aws_api_gateway_deployment.apigatewaydeployment.id
 }
+
+
+# Outputs
+#====================================================================================================
+output "API_Gateway_URL" {
+  value = "${aws_api_gateway_deployment.apigatewaydeployment.invoke_url}${aws_api_gateway_stage.apigatewaystage.stage_name}"
+}
+
+# output "API_Gateway_API_Key" {
+#   value = "Will add api key auth here later, in prod will be over VPC so there will be no need for api key"
+# }
