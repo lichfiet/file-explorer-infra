@@ -59,3 +59,9 @@ This is the AWS Infrastructure for the file explorer project, a full setup guide
     *(e.x., `API_Gateway_URL = "https://bl4m5xb3sl.execute-api.us-west-1.amazonaws.com/dev"`)*
 
     **you will need to copy this to place in your** `.env` file of the backend service. If you navigated from the main tutorial, you can head back by clicking [here](https://https://github.com/lichfiet/file-explorer-web).
+
+
+### To Do
+- Add API Key Auth *(In Progress)*
+- Rebuild API Methods into terraform resources, currently using api export.
+- Implement methods for using secrets manager with API Key.
