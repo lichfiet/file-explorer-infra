@@ -1,4 +1,9 @@
-// Define providers
+#================================================================================================
+
+##
+## Intialization
+##
+
 terraform {
   required_providers {
     aws = {
@@ -16,6 +21,11 @@ provider "aws" {
   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
 
+#================================================================================================
+
+##
+## Modules
+##
 
 module "vpc" {
   source = "./modules/vpc"
@@ -24,6 +34,19 @@ module "vpc" {
   vpc_name = "${var.project_name}"
   vpc_region = "us-west-1"
   vpc_cidr = "10.0.0.0/16"
+
+  ## outputs
+  # vpc = module.vpc.vpc_ids.vpc_id
+  # subnet_ids = {
+  #   public = module.vpc.vpc_ids.subnet_ids.public_subnet
+  #   private = module.vpc.vpc_ids.subnet_ids.private_subnet
+  # }
+  # route_tables = {
+  #   public = module.vpc.vpc_ids.route_tables.public_route_table
+  #   private = module.vpc.vpc_ids.route_tables.private_route_table
+  # }
+  # nat_gateway_id = module.vpc.vpc_ids.nat_gateway
+  # internet_gateway_id = module.vpc.vpc_ids.internet_gateway
 }
 
 module "s3Bucket" {
@@ -32,4 +55,9 @@ module "s3Bucket" {
   # resources of s3Bucket will have -s3-bucket added to the name
   bucket_name = "${var.project_name}"
   s3_bucket_policy_principals = ["*"]
+
+  ## outputs
+  # bucket_arn = module.s3Bucket.s3_ids.bucket_arn
+  # bucket_name = module.s3Bucket.s3_ids.bucket_name
+  # bucket_id = module.s3Bucket.s3_ids.bucket_id
 }
