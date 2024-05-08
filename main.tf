@@ -16,14 +16,12 @@ provider "aws" {
   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
 
-//
-// define ec2 instance
-//
-# resource "aws_instance" "ec2instance" {
-#   ami           = "ami-07619059e86eaaaa2" // Amazon Linux 2023 AMI
-#   instance_type = "t2.micro"              // Smallest free tier instance type
 
-#   tags = {
-#     Name = "${var.project_name}-ec2-instance"
-#   }
-# }
+module "vpc" {
+  source = "./modules/vpc"
+
+  # Outputs of vpc will have -vpc, -subnet, -xxx added to the name
+  vpc_name = "${var.project_name}"
+  vpc_region = "us-west-1"
+  vpc_cidr = "10.0.0.0/16"
+}

@@ -8,7 +8,7 @@ resource "aws_api_gateway_rest_api" "apigateway" {
       "version" : "2024-01-13T23:01:41Z"
     },
     "servers" : [{
-      "url" : "https://dl4z61qaj4.execute-api.us-east-1.amazonaws.com/{basePath}",
+      "url" : "https://xxx.execute-api.us-east-1.amazonaws.com/{basePath}",
       "variables" : {
         "basePath" : {
           "default" : "dev"
