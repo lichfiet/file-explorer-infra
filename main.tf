@@ -29,6 +29,7 @@ module "vpc" {
 module "s3Bucket" {
   source = "./modules/s3Bucket"
 
-  bucket_name = "${var.project_name}-module-test"
+  # resources of s3Bucket will have -s3-bucket added to the name
+  bucket_name = "${var.project_name}"
   s3_bucket_policy_principals = ["*"]
 }
