@@ -20,8 +20,15 @@ provider "aws" {
 module "vpc" {
   source = "./modules/vpc"
 
-  # Outputs of vpc will have -vpc, -subnet, -xxx added to the name
+  # resources of vpc will have -vpc, -subnet, -xxx added to the name
   vpc_name = "${var.project_name}"
   vpc_region = "us-west-1"
   vpc_cidr = "10.0.0.0/16"
+}
+
+module "s3Bucket" {
+  source = "./modules/s3Bucket"
+
+  bucket_name = "${var.project_name}-module-test"
+  s3_bucket_policy_principals = ["*"]
 }
