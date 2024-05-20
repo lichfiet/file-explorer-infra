@@ -143,6 +143,17 @@ resource "aws_api_gateway_rest_api" "apigateway" {
                   }
                 }
               }
+            },
+            "404" : {
+              "description" : "404 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+
             }
           },
           "x-amazon-apigateway-integration" : {
@@ -152,6 +163,9 @@ resource "aws_api_gateway_rest_api" "apigateway" {
             "responses" : {
               "default" : {
                 "statusCode" : "200"
+              },
+              "404" : {
+                "statusCode" : "404"
               }
             },
             "requestParameters" : {
