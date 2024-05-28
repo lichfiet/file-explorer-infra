@@ -50,6 +50,8 @@ This is the AWS Infrastructure for the file explorer project, a full setup guide
     AWS_SECRET_ACCESS_KEY=1a2b3c4d5e6f7g
     ```
 
+    then, run `export $(grep -v '^#' .env | xargs)`
+
 4. #### Deploy your resources
 
     Run `terraform apply` to build your infrastructure

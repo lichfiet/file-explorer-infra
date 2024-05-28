@@ -13,3 +13,9 @@ variable "project_name" {
     description = "name of the project"
     default = "file-explorer"
 }
+
+variable "region" {
+    type = string
+    description = "region of the project"
+    default = "us-west-2"  
+}

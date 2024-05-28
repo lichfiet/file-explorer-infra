@@ -32,7 +32,7 @@ module "vpc" {
 
   # resources of vpc will have -vpc, -subnet, -xxx added to the name
   vpc_name = "${var.project_name}"
-  vpc_region = "us-west-1"
+  vpc_region = "${var.region}"
   vpc_cidr = "10.0.0.0/16"
 
   ## outputs
