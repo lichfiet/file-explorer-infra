@@ -18,3 +18,9 @@ variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   default = "10.0.0.0/16"
 }
+
+variable "deploy_nat_gateway" {
+  type = bool
+  description = "whether to create a nat gateway"
+  default = true
+}

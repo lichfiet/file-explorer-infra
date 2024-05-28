@@ -35,6 +35,8 @@ module "vpc" {
   vpc_region = "${var.region}"
   vpc_cidr = "10.0.0.0/16"
 
+  deploy_nat_gateway = false
+
   ## outputs
   # vpc = module.vpc.vpc_ids.vpc_id
   # subnet_ids = {

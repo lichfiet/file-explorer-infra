@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-west-1"
+  region = "${var.vpc_region}"
   #   access_key = local.envs["AWS_ACCESS_KEY_ID"]
   #   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
@@ -25,6 +25,7 @@ resource "aws_vpc" "vpc" {
     Name = "${var.vpc_name}-vpc"
   }
 }
+
 
 resource "aws_internet_gateway" "internet-gateway" {
   depends_on = [aws_vpc.vpc]
@@ -89,14 +90,18 @@ resource "aws_subnet" "private_subnet" {
   }
 }
 
+
 # Elastic IP For NAT Gateway
 resource "aws_eip" "nat_eip" {
+  count = var.deploy_nat_gateway == true ? 1 : 0
   vpc = true
 }
 
 resource "aws_nat_gateway" "nat_gateway" {
-  depends_on = [aws_internet_gateway.internet-gateway]
-  allocation_id = aws_eip.nat_eip.id
+  count = var.deploy_nat_gateway == true ? 1 : 0
+
+  depends_on = [aws_eip.nat_eip]
+  allocation_id = aws_eip.nat_eip[0].id
   subnet_id = aws_subnet.public_subnet.id
   tags = {
     Name = "${var.vpc_name}-nat-gateway"
@@ -104,11 +109,13 @@ resource "aws_nat_gateway" "nat_gateway" {
 }
 
 resource "aws_route_table" "private_route_table" {
+  count = var.deploy_nat_gateway == true ? 1 : 0
+
   depends_on = [aws_internet_gateway.internet-gateway]
   vpc_id     = aws_vpc.vpc.id
   route {
     cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat_gateway.id
+    nat_gateway_id = aws_nat_gateway.nat_gateway[0].id
   }
   tags = {
     Name = "${var.vpc_name}-route-table"
@@ -116,7 +123,9 @@ resource "aws_route_table" "private_route_table" {
 }
 
 resource "aws_route_table_association" "private_route_table_association" {
+  count = var.deploy_nat_gateway == true ? 1 : 0
+
   depends_on     = [aws_route_table.private_route_table]
   subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = aws_route_table.private_route_table.id
+  route_table_id = aws_route_table.private_route_table[0].id
 }
