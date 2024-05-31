@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  region     = "us-west-1"
+  region     = "us-west-2"
   access_key = local.envs["AWS_ACCESS_KEY_ID"]
   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
@@ -25,7 +25,7 @@ provider "aws" {
 
 ##
 ## Modules
-##
+## 
 
 module "vpc" {
   source = "./modules/vpc"
@@ -54,6 +54,7 @@ module "vpc" {
 module "s3Bucket" {
   source = "./modules/s3Bucket"
 
+  bucket_force_destroy = true
   # resources of s3Bucket will have -s3-bucket added to the name
   bucket_name = "${var.project_name}"
   s3_bucket_policy_principals = ["*"]
@@ -63,3 +64,8 @@ module "s3Bucket" {
   # bucket_name = module.s3Bucket.s3_ids.bucket_name
   # bucket_id = module.s3Bucket.s3_ids.bucket_id
 }
+
+# import {
+#   to = module.s3Bucket.importBucketName
+#   id = "${var.project_name}-s3-bucket"
+# }

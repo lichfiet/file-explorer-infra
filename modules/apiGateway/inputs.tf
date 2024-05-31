@@ -5,6 +5,13 @@ variable "api_name" {
   
 }
 
+variable "api_region" {
+  type = string
+  description = "aws region"
+  default = "us-west-2"
+  
+}
+
 variable "api_methods" {
     type = list(string)
     description = "methods for the api"

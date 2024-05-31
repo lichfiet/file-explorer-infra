@@ -9,3 +9,9 @@ variable "s3_bucket_policy_principals" {
     description = "Principals for the s3 bucket policy, takes array of ARNs"
     default = ["*"]
 }
+
+variable "bucket_force_destroy" {
+    type = bool
+    description = "Whether to force destroy the bucket"
+    default = false
+}

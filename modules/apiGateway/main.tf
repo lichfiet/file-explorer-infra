@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-west-1"
+  region = "${var.api_region}"
   #   access_key = local.envs["AWS_ACCESS_KEY_ID"]
   #   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }

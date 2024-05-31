@@ -23,12 +23,15 @@ provider "aws" {
 resource "aws_s3_bucket" "s3bucket" {
   bucket = "${var.bucket_name}-s3-bucket"
 
+  force_destroy = var.bucket_force_destroy
+
   tags = {
     name = "${var.bucket_name}-s3-bucket"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "s3bucketpublicaccessblock" {
+  depends_on = [ aws_s3_bucket.s3bucket ]
   bucket = aws_s3_bucket.s3bucket.id
 
   block_public_acls       = true
