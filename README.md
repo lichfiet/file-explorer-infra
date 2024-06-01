@@ -52,15 +52,17 @@ This is the AWS Infrastructure for the file explorer project, a full setup guide
 
     then, run `export $(grep -v '^#' .env | xargs)`
 
+    You'll want to hold on to these credentials, as the backend can/uses the same access key and secret to talk to AWS.
+
 4. #### Deploy your resources
 
     Run `terraform apply` to build your infrastructure
 
-    When run, it will output the API Gateway URL.
-    
-    *(e.x., `API_Gateway_URL = "https://bl4m5xb3sl.execute-api.us-west-1.amazonaws.com/dev"`)*
+    When run, it will output the S3 Bucket name.
 
-    **you will need to copy this to place in your** `.env` file of the backend service. If you navigated from the main tutorial, you can head back by clicking [here](https://https://github.com/lichfiet/file-explorer-web).
+5. #### Store Credentials
+
+    Make sure you have you credentials from step 2. **You will need to copy these to place in your** `.env` file of the backend service. If you navigated from the main tutorial, you can head back by clicking [here](https://https://github.com/lichfiet/file-explorer-web). Or, move on to the next step which is configuring your backend.
 
 
 ### To Do
