@@ -17,5 +17,5 @@ variable "project_name" {
 variable "region" {
     type = string
     description = "region of the project"
-    default = "us-west-2"  
+    default = "us-west-1"  
 }

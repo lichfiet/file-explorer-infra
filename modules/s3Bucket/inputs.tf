@@ -15,3 +15,10 @@ variable "bucket_force_destroy" {
     description = "Whether to force destroy the bucket"
     default = false
 }
+
+variable "region" {
+    type = string
+    description = "Region to deploy the bucket"
+    default = "us-west-1"
+  
+}

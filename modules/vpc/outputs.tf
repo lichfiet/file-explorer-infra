@@ -11,12 +11,12 @@ output "vpc_ids" {
 
       subnets = {
         public  = {
-          id = aws_subnet.public_subnet.id,
-          cidr_block = aws_subnet.public_subnet.cidr_block
+          id = aws_subnet.public_subnet_1.id,
+          cidr_block = aws_subnet.public_subnet_1.cidr_block
 
           route_table = {
             id = aws_route_table.public_route_table.id
-            association = aws_route_table_association.learning_route_table_association.id
+            association = aws_route_table_association.public_route_table_association.id
           }
         },
         private = {

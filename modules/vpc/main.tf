@@ -10,8 +10,6 @@ terraform {
 
 provider "aws" {
   region = "${var.vpc_region}"
-  #   access_key = local.envs["AWS_ACCESS_KEY_ID"]
-  #   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
 
 ############################################################################################################
@@ -36,21 +34,32 @@ resource "aws_internet_gateway" "internet-gateway" {
 }
 
 ##
-## Public Subnet And Route Table
+## Public Subnets And Route Table
 ##
-resource "aws_subnet" "public_subnet" {
-  # public subnet
+resource "aws_subnet" "public_subnet_1" {
+  # public subnet 1
   depends_on        = [aws_vpc.vpc]
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = "10.0.0.0/24"
   availability_zone = "${var.vpc_region}a"
   tags = {
-    Name = "${var.vpc_name}-public-subnet"
+    Name = "${var.vpc_name}-public-subnet-1"
+  }
+}
+
+resource "aws_subnet" "public_subnet_2" {
+  # public subnet 1
+  depends_on        = [aws_vpc.vpc]
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "${var.vpc_region}b"
+  tags = {
+    Name = "${var.vpc_name}-public-subnet-2"
   }
 }
 
 resource "aws_route_table" "public_route_table" {
-  # public route table
+  # public route table 1
   depends_on = [aws_internet_gateway.internet-gateway]
   vpc_id     = aws_vpc.vpc.id
   route {
@@ -62,11 +71,31 @@ resource "aws_route_table" "public_route_table" {
   }
 }
 
-resource "aws_route_table_association" "learning_route_table_association" {
+resource "aws_route_table" "public_route_table2" {
+  # public route table 1
+  depends_on = [aws_internet_gateway.internet-gateway]
+  vpc_id     = aws_vpc.vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet-gateway.id
+  }
+  tags = {
+    Name = "${var.vpc_name}-route-table"
+  }
+}
+
+resource "aws_route_table_association" "public_route_table_association" {
   # associate public route table with public subnet
   depends_on     = [aws_route_table.public_route_table]
-  subnet_id      = aws_subnet.public_subnet.id
+  subnet_id      = aws_subnet.public_subnet_1.id
   route_table_id = aws_route_table.public_route_table.id
+}
+
+resource "aws_route_table_association" "public_route_table_association2" {
+  # associate public route table with public subnet
+  depends_on     = [aws_route_table.public_route_table2]
+  subnet_id      = aws_subnet.public_subnet_2.id
+  route_table_id = aws_route_table.public_route_table2.id
 }
 
 # change default route table to public route table
@@ -102,7 +131,7 @@ resource "aws_nat_gateway" "nat_gateway" {
 
   depends_on = [aws_eip.nat_eip]
   allocation_id = aws_eip.nat_eip[0].id
-  subnet_id = aws_subnet.public_subnet.id
+  subnet_id = aws_subnet.public_subnet_1
   tags = {
     Name = "${var.vpc_name}-nat-gateway"
   }

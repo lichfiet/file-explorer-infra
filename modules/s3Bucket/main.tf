@@ -46,6 +46,7 @@ resource "aws_s3_bucket_public_access_block" "s3bucketpublicaccessblock" {
 ## S3 Bucket Policy
 ##
 data "aws_iam_policy_document" "s3bucketpolicy_document" {
+  depends_on = [ aws_s3_bucket.s3bucket ]
   statement {
     principals {
       type        = "AWS"
@@ -65,6 +66,7 @@ data "aws_iam_policy_document" "s3bucketpolicy_document" {
 }
 
 resource "aws_s3_bucket_policy" "s3bucketpolicy" {
+  depends_on = [ aws_s3_bucket.s3bucket ]
   bucket = aws_s3_bucket.s3bucket.id
   policy = data.aws_iam_policy_document.s3bucketpolicy_document.json
 }

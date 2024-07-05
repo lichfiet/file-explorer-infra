@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  region     = "us-west-2"
+  region     = "us-west-1"
   access_key = local.envs["AWS_ACCESS_KEY_ID"]
   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
@@ -58,6 +58,7 @@ module "s3Bucket" {
   # resources of s3Bucket will have -s3-bucket added to the name
   bucket_name = "${var.project_name}"
   s3_bucket_policy_principals = ["*"]
+  region = "${var.region}"
 
   ## outputs
   # bucket_arn = module.s3Bucket.s3_ids.bucket_arn
@@ -65,7 +66,32 @@ module "s3Bucket" {
   # bucket_id = module.s3Bucket.s3_ids.bucket_id
 }
 
-# import {
-#   to = module.s3Bucket.importBucketName
-#   id = "${var.project_name}-s3-bucket"
-# }
+module "loki-chunks-s3Bucket" {
+  source = "./modules/s3Bucket"
+
+  bucket_force_destroy = true
+  # resources of s3Bucket will have -s3-bucket added to the name
+  bucket_name = "loki-${var.project_name}-chunks"
+  s3_bucket_policy_principals = ["*"]
+  region = "${var.region}"
+}
+
+module "loki-ruler-s3Bucket" {
+  source = "./modules/s3Bucket"
+
+  bucket_force_destroy = true
+  # resources of s3Bucket will have -s3-bucket added to the name
+  bucket_name = "loki-${var.project_name}-ruler"
+  s3_bucket_policy_principals = ["*"]
+  region = "${var.region}"
+}
+
+module "loki-admin-s3Bucket" {
+  source = "./modules/s3Bucket"
+
+  bucket_force_destroy = true
+  # resources of s3Bucket will have -s3-bucket added to the name
+  bucket_name = "loki-${var.project_name}-admin"
+  s3_bucket_policy_principals = ["*"]
+  region = "${var.region}"
+}
