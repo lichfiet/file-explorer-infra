@@ -10,13 +10,20 @@ output "vpc_ids" {
       cidr_block = aws_vpc.vpc.cidr_block,
 
       subnets = {
-        public  = {
+        public1  = {
           id = aws_subnet.public_subnet_1.id,
           cidr_block = aws_subnet.public_subnet_1.cidr_block
 
           route_table = {
-            id = aws_route_table.public_route_table.id
-            association = aws_route_table_association.public_route_table_association.id
+            id = aws_route_table.public_subnet_1_route_table.id
+          }
+        },
+        public2  = {
+          id = aws_subnet.public_subnet_1.id,
+          cidr_block = aws_subnet.public_subnet_1.cidr_block
+
+          route_table = {
+            id = aws_route_table.public_subnet_1_route_table.id
           }
         },
         private = {
@@ -25,7 +32,6 @@ output "vpc_ids" {
 
           route_table = {
             id = length(aws_route_table.private_route_table) > 0 ? aws_route_table.private_route_table[0].id : false
-            association = length(aws_route_table_association.private_route_table_association) > 0 ? aws_route_table_association.private_route_table_association[0].id : false
           }
         } 
       },
@@ -36,7 +42,7 @@ output "vpc_ids" {
     },
 
     internet_gateway = {
-      id = aws_internet_gateway.internet-gateway.id
+      id = aws_internet_gateway.internet_gateway.id
     }
   }
 }

@@ -65,33 +65,3 @@ module "s3Bucket" {
   # bucket_name = module.s3Bucket.s3_ids.bucket_name
   # bucket_id = module.s3Bucket.s3_ids.bucket_id
 }
-
-module "loki-chunks-s3Bucket" {
-  source = "./modules/s3Bucket"
-
-  bucket_force_destroy = true
-  # resources of s3Bucket will have -s3-bucket added to the name
-  bucket_name = "loki-${var.project_name}-chunks"
-  s3_bucket_policy_principals = ["*"]
-  region = "${var.region}"
-}
-
-module "loki-ruler-s3Bucket" {
-  source = "./modules/s3Bucket"
-
-  bucket_force_destroy = true
-  # resources of s3Bucket will have -s3-bucket added to the name
-  bucket_name = "loki-${var.project_name}-ruler"
-  s3_bucket_policy_principals = ["*"]
-  region = "${var.region}"
-}
-
-module "loki-admin-s3Bucket" {
-  source = "./modules/s3Bucket"
-
-  bucket_force_destroy = true
-  # resources of s3Bucket will have -s3-bucket added to the name
-  bucket_name = "loki-${var.project_name}-admin"
-  s3_bucket_policy_principals = ["*"]
-  region = "${var.region}"
-}

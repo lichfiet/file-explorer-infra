@@ -3,13 +3,13 @@
 ##
 variable "vpc_name" {
     type = string
-    description = "name of the vpc prefixed to all objects"
+    description = "name of the vpc, all objects get prefixed with this"
     default = "file-explorer"
 }
 
 variable "vpc_region" {
   type = string
-  description = "aws region"
+  description = "aws region vpc deploys in"
   default = "us-west-1"
 }
 
