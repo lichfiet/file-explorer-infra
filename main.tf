@@ -65,3 +65,24 @@ module "s3Bucket" {
   # bucket_name = module.s3Bucket.s3_ids.bucket_name
   # bucket_id = module.s3Bucket.s3_ids.bucket_id
 }
+
+module "amplify_app" {
+  source = "./modules/amplify_app"
+  region = "${var.region}"
+
+  app_name = "${var.project_name}"
+  app_domain_name = "trevorlichfield.com"
+  app_environment = "dev"
+
+  # Dev & Stage Branches to build & Deploy (Main is built by default)
+  app_development_branches = ["dev"]
+  app_staging_branches = []
+
+  # Repository & Build Settings
+  app_repository = "https://github.com/lichfiet/file-explorer-web"
+  app_environment_variables = {
+    "REACT_APP_API_URL" = "https://api.${var.project_name}.com"
+  }
+  app_repository_token = var.github_token
+
+}

@@ -19,3 +19,14 @@ variable "region" {
     description = "region of the project"
     default = "us-west-1"  
 }
+
+variable "app_name" {
+    type = string
+    description = "Name of the amplify app"
+    default = "amplify-app"
+}
+
+variable "github_token" {
+    type = string
+    description = "Github token"
+}
