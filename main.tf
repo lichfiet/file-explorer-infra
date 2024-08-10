@@ -55,6 +55,7 @@ module "amplify_app" {
 
   name = "${var.project_name}"
   domain_name = "trevorlichfield.com"
+  main_branch = "main"
   main_branch_prefix = "files"
 
   # Dev & Stage Branches to build & Deploy (Main is built by default)

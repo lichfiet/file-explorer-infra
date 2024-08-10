@@ -101,3 +101,9 @@ variable "main_branch_prefix" {
     default = "main"
   
 }
+
+variable "main_branch" {
+    type = string
+    description = "Main branch of the amplify app"
+    default = "main"
+}

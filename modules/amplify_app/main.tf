@@ -45,8 +45,10 @@ resource "aws_amplify_app" "this" {
 #
 
 resource "aws_amplify_branch" "main" {
-  branch_name = "main"
   app_id = aws_amplify_app.this.id
+
+  branch_name = "main"
+  stage = "PRODUCTION"
 
   lifecycle {
     prevent_destroy = true
@@ -56,8 +58,10 @@ resource "aws_amplify_branch" "main" {
 resource "aws_amplify_branch" "development" {
   for_each = var.development_branches
 
-  branch_name = each.key
   app_id = aws_amplify_app.this.id
+
+  branch_name = each.key
+  stage = "DEVELOPMENT"
 
   lifecycle {
     create_before_destroy = true
@@ -67,8 +71,10 @@ resource "aws_amplify_branch" "development" {
 resource "aws_amplify_branch" "Staging" {
   for_each = var.staging_branches
 
-  branch_name = each.key
   app_id = aws_amplify_app.this.id
+
+  branch_name = each.key
+  stage = "DEVELOPMENT"
 
   lifecycle {
     create_before_destroy = true
