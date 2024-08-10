@@ -19,22 +19,22 @@ provider "aws" {
 #
 
 resource "aws_amplify_app" "this" {
-  name = "${var.app_name} ${var.app_environment}"
-  repository = var.app_repository
-  access_token = var.app_repository_token
+  name = "${var.name}"
+  repository = var.repository
+  access_token = var.repository_token
 
   # BUILD SETTINGS
-  build_spec = var.app_build_spec != null ? var.app_build_spec : var.app_build_spec
-  environment_variables = var.app_environment_variables
+  build_spec = var.build_spec != null ? var.build_spec : var.build_spec
+  environment_variables = var.environment_variables
 
   # AUTO BUILD & DEPLOY
-  enable_auto_branch_creation = true
+  enable_auto_branch_creation = var.auto_branch_creation
   auto_branch_creation_patterns = [
     "*",
     "*/**",
   ]
   auto_branch_creation_config {
-    enable_auto_build = true
+    enable_auto_build = var.auto_branch_creation
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_amplify_branch" "main" {
 }
 
 resource "aws_amplify_branch" "development" {
-  for_each = var.app_development_branches
+  for_each = var.development_branches
 
   branch_name = each.key
   app_id = aws_amplify_app.this.id
@@ -65,7 +65,7 @@ resource "aws_amplify_branch" "development" {
 }
 
 resource "aws_amplify_branch" "Staging" {
-  for_each = var.app_staging_branches
+  for_each = var.staging_branches
 
   branch_name = each.key
   app_id = aws_amplify_app.this.id
@@ -83,14 +83,14 @@ resource "aws_amplify_branch" "Staging" {
 
 resource "aws_amplify_domain_association" "this" {
   app_id = aws_amplify_app.this.id
-  domain_name = var.app_domain_name
+  domain_name = var.domain_name
   wait_for_verification = true
 
   # DOMAIN SETTINGS
   enable_auto_sub_domain = true
 
   sub_domain {
-    prefix = "main"
+    prefix = var.main_branch_prefix
     branch_name = "main"
   }
 

@@ -19,4 +19,5 @@ help: ## This help.
 # Build the container
 init: ## Install Terraform on Debian
 	terraform init
-samplecommandtwo: ## Build the container without no cache
+apply: ## Build the container without no cache
+	terraform apply -var-file='.tfvars'

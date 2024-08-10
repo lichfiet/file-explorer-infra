@@ -21,11 +21,7 @@ provider "aws" {
   secret_key = local.envs["AWS_SECRET_ACCESS_KEY"]
 }
 
-#================================================================================================
-
-##
-## Modules
-## 
+#================================================================================================ 
 
 module "vpc" {
   source = "./modules/vpc"
@@ -36,54 +32,41 @@ module "vpc" {
   vpc_cidr = "10.0.0.0/16"
 
   deploy_nat_gateway = false
-
-  ## outputs
-  # vpc = module.vpc.vpc_ids.vpc_id
-  # subnet_ids = {
-  #   public = module.vpc.vpc_ids.subnet_ids.public_subnet
-  #   private = module.vpc.vpc_ids.subnet_ids.private_subnet
-  # }
-  # route_tables = {
-  #   public = module.vpc.vpc_ids.route_tables.public_route_table
-  #   private = module.vpc.vpc_ids.route_tables.private_route_table
-  # }
-  # nat_gateway_id = module.vpc.vpc_ids.nat_gateway
-  # internet_gateway_id = module.vpc.vpc_ids.internet_gateway
 }
+
+
 
 module "s3Bucket" {
   source = "./modules/s3Bucket"
 
-  bucket_force_destroy = true
   # resources of s3Bucket will have -s3-bucket added to the name
   bucket_name = "${var.project_name}"
+
+  bucket_force_destroy = true
   s3_bucket_policy_principals = ["*"]
   region = "${var.region}"
-
-  ## outputs
-  # bucket_arn = module.s3Bucket.s3_ids.bucket_arn
-  # bucket_name = module.s3Bucket.s3_ids.bucket_name
-  # bucket_id = module.s3Bucket.s3_ids.bucket_id
 }
+
+
 
 module "amplify_app" {
   source = "./modules/amplify_app"
   region = "${var.region}"
 
-  app_name = "${var.project_name}"
-  app_domain_name = "trevorlichfield.com"
-  app_environment = "dev"
+  name = "${var.project_name}"
+  domain_name = "trevorlichfield.com"
+  main_branch_prefix = "files"
 
   # Dev & Stage Branches to build & Deploy (Main is built by default)
-  app_development_branches = ["dev"]
-  app_staging_branches = []
+  auto_branch_creation = false
+  development_branches = ["dev"]
+  staging_branches = []
 
   # Repository & Build Settings
-  app_repository = "https://github.com/lichfiet/file-explorer-web"
-  app_environment_variables = {
-    "REACT_APP_API_URL" = "https://api.${var.project_name}.com"
+  repository = "https://github.com/lichfiet/file-explorer-web"
+  repository_token = var.github_token
+  environment_variables = {
     "VITE_API_URL" = "https://explorer.trevorlichfield.com"
   }
-  app_repository_token = var.github_token
-
+  # build_spec = var.build_spec
 }
