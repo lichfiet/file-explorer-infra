@@ -82,6 +82,7 @@ module "amplify_app" {
   app_repository = "https://github.com/lichfiet/file-explorer-web"
   app_environment_variables = {
     "REACT_APP_API_URL" = "https://api.${var.project_name}.com"
+    "VITE_API_URL" = "https://explorer.trevorlichfield.com"
   }
   app_repository_token = var.github_token
 
