@@ -51,6 +51,8 @@ module "s3Bucket" {
 module "amplify_app" {
   source = "./modules/amplify_app"
   region = "${var.region}"
+  aws_access_key = var.aws_access_key
+  aws_secret_key = var.aws_secret_key
 
   name = "${var.project_name}"
   domain_name = "trevorlichfield.com"
