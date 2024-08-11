@@ -39,7 +39,6 @@ module "vpc" {
 module "s3Bucket" {
   source = "./modules/s3Bucket"
 
-  # resources of s3Bucket will have -s3-bucket added to the name
   bucket_name = "${var.project_name}"
 
   bucket_force_destroy = true
@@ -64,7 +63,7 @@ module "amplify_app" {
   staging_branches = []
 
   # Repository & Build Settings
-  repository = "https://github.com/lichfiet/file-explorer-web"
+  repository = var.frontend_repository_url
   repository_token = var.github_token
   environment_variables = {
     "VITE_API_URL" = "https://explorer.trevorlichfield.com"

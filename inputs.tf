@@ -26,3 +26,8 @@ variable "github_token" {
     type = string
     description = "Github token"
 }
+
+variable "frontend_repository_url" {
+    type = string
+    description = "Frontend repository url"
+}
