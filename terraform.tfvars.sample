@@ -1,1 +1,4 @@
 github_token="github_pat_xxxxx"
+frontend_repository_url="example.com"
+aws_access_key=""
+aws_secret_key=""
