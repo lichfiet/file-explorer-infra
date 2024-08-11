@@ -25,6 +25,8 @@ provider "aws" {
 
 module "vpc" {
   source = "./modules/vpc"
+  aws_access_key = var.aws_access_key
+  aws_secret_key = var.aws_secret_key
 
   # resources of vpc will have -vpc, -subnet, -xxx added to the name
   vpc_name = "${var.project_name}"
@@ -38,6 +40,8 @@ module "vpc" {
 
 module "s3Bucket" {
   source = "./modules/s3Bucket"
+  aws_access_key = var.aws_access_key
+  aws_secret_key = var.aws_secret_key
 
   bucket_name = "${var.project_name}"
 
