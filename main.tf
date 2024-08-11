@@ -21,13 +21,13 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 
-data "terraform_remote_state" "vpc" {
+data "terraform_remote_state" "this" {
   backend = "remote"
 
   config = {
     organization = "trevors-projects"
     workspaces = {
-      name = "file-explorer"
+      name = "file-explorer-infra"
     }
   }
 }
