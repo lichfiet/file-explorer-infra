@@ -107,7 +107,7 @@ resource "aws_amplify_domain_association" "this" {
     for_each = var.development_branches
     content {
       prefix = sub_domain.key
-      branch_name = sub_domain.value
+      branch_name = sub_domain.key
     }
   }
 
