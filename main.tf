@@ -21,6 +21,17 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 
+data "terraform_remote_state" "vpc" {
+  backend = "remote"
+
+  config = {
+    organization = "trevors-projects"
+    workspaces = {
+      name = "file-explorer"
+    }
+  }
+}
+
 #================================================================================================ 
 
 module "vpc" {
