@@ -103,6 +103,14 @@ resource "aws_amplify_domain_association" "this" {
     branch_name = "main"
   }
 
+  dynamic "sub_domain" {
+    for_each = var.development_branches
+    content {
+      prefix = sub_domain.key
+      branch_name = sub_domain.value
+    }
+  }
+
   lifecycle {
     create_before_destroy = true
   }
