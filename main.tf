@@ -95,7 +95,7 @@ module "amplify_app" {
 ##
 
 resource "aws_instance" "k3s" {
-    ami = data.aws_ami.ubuntu.id
+    ami = "ami-055e3d4f0bbeb5878"
     instance_type = "t3.small"
     key_name = "trevors-projects"
     vpc_security_group_ids = [module.vpc.public_subnet_sg_id]
