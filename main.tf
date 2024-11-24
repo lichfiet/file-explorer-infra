@@ -35,14 +35,14 @@ data "terraform_remote_state" "this" {
 #================================================================================================ 
 
 module "vpc" {
-  source = "./modules/vpc"
+  source         = "./modules/vpc"
   aws_access_key = var.aws_access_key
   aws_secret_key = var.aws_secret_key
 
   # resources of vpc will have -vpc, -subnet, -xxx added to the name
-  vpc_name = "${var.project_name}"
-  vpc_region = "${var.region}"
-  vpc_cidr = "10.0.0.0/16"
+  vpc_name   = var.project_name
+  vpc_region = var.region
+  vpc_cidr   = "10.0.0.0/16"
 
   deploy_nat_gateway = false
 }
@@ -50,37 +50,37 @@ module "vpc" {
 
 
 module "s3Bucket" {
-  source = "./modules/s3Bucket"
+  source         = "./modules/s3Bucket"
   aws_access_key = var.aws_access_key
   aws_secret_key = var.aws_secret_key
 
-  bucket_name = "${var.project_name}"
+  bucket_name = var.project_name
 
-  bucket_force_destroy = true
+  bucket_force_destroy        = true
   s3_bucket_policy_principals = ["*"]
-  region = "${var.region}"
+  region                      = var.region
 }
 
 
 
 module "amplify_app" {
-  source = "./modules/amplify_app"
-  region = "${var.region}"
+  source         = "./modules/amplify_app"
+  region         = var.region
   aws_access_key = var.aws_access_key
   aws_secret_key = var.aws_secret_key
 
-  name = "${var.project_name}"
-  domain_name = "trevorlichfield.com"
-  main_branch = "main"
+  name               = var.project_name
+  domain_name        = "trevorlichfield.com"
+  main_branch        = "main"
   main_branch_prefix = "files"
 
   # Dev & Stage Branches to build & Deploy (Main is built by default)
   auto_branch_creation = false
   development_branches = ["dev"]
-  staging_branches = []
+  staging_branches     = []
 
   # Repository & Build Settings
-  repository = var.frontend_repository_url
+  repository       = var.frontend_repository_url
   repository_token = var.github_token
   environment_variables = {
     "VITE_API_URL" = "https://explorer.trevorlichfield.com"
@@ -95,14 +95,14 @@ module "amplify_app" {
 ##
 
 resource "aws_instance" "k3s" {
-    ami = "ami-055e3d4f0bbeb5878"
-    instance_type = "t3.small"
-    key_name = "trevors-projects"
-    vpc_security_group_ids = [module.vpc.public_subnet_sg_id]
-    subnet_id = module.vpc.vpc_public_subnets[0]
-    associate_public_ip_address = true
-    tags = {
-        Name = "k3s-server"
-    }
-  
+  ami                         = "ami-055e3d4f0bbeb5878"
+  instance_type               = "t3.small"
+  key_name                    = "trevors-projects"
+  vpc_security_group_ids      = [module.vpc.vpc_ids.vpc.security_groups.public.id]
+  subnet_id                   = module.vpc.vpc_ids.vpc.subnets.public1.id
+  associate_public_ip_address = true
+  tags = {
+    Name = "k3s-server"
+  }
+
 }

@@ -35,6 +35,11 @@ output "vpc_ids" {
           }
         } 
       },
+      security_groups = {
+        public = {
+          id = aws_security_group.public_subnet_sg.id
+        }
+      }
     },
   
     nat_gateway = {
