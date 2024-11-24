@@ -87,3 +87,24 @@ module "amplify_app" {
   }
   # build_spec = var.build_spec
 }
+
+#================================================================================================
+
+##
+## EC2 Instance with K3s
+##
+
+resource "aws_ec2_instance" "k3s" {
+    ami = data.aws_ami.ubuntu.id
+    instance_type = "t2.small"
+    key_name = "trevors-projects"
+    vpc_security_group_ids = [module.vpc.vpc_default_sg_id]
+    subnet_id = module.vpc.vpc_public_subnets[0]
+    associate_public_ip_address = true
+    iam_instance_profile = module.k3s.k3s_profile_name
+    user_data = data.template_cloudinit_config.k3s.rendered
+    tags = {
+        Name = "k3s-server"
+    }
+  
+}
