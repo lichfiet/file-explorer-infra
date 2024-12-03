@@ -104,5 +104,16 @@ resource "aws_instance" "k3s" {
   tags = {
     Name = "k3s-server"
   }
+}
 
+resource "aws_instance" "k3s-worker" {
+  ami                         = "ami-038bba9a164eb3dc1"
+  instance_type               = "t2.medium"
+  key_name                    = "low-security"
+  vpc_security_group_ids      = [module.vpc.vpc_ids.vpc.security_groups.public.id]
+  subnet_id                   = module.vpc.vpc_ids.vpc.subnets.public1.id
+  associate_public_ip_address = true
+  tags = {
+    Name = "k3s-worker"
+  }
 }
